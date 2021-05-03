@@ -21,9 +21,11 @@ pipeline {
                         sh "docker build -t ${IMAGE_NAME} ."
                         sh "echo  $PASS | docker login -u $USER --password-stdin"                        
                         sh "docker push ${IMAGE_NAME}"
-                }                
+                    }                
+                }
             }
-        }        
+        }
+
         stage('test') {
             steps {
                 script {
@@ -33,10 +35,10 @@ pipeline {
         }    
         stage('deploy') {         
             steps {
-                script {       
-                     echo "Deploying the application..."             
+                script {                    
+                    echo "Deploying the application..."                    
                 }
             }
         }
-    }
+    }    
 }
