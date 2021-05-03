@@ -1,18 +1,26 @@
 pipeline {
     agent any
+    environment {
+        IMAGE_NAME = 'raghavbuz/my-ng-app:2.0'
+    }
     stages {       
         stage('init') {
             steps {
                 script {
-                    echo "Initializing the application..."                                        
+                    echo "Initializing the application..."  
+                    sh 'npm --version'                                      
                 }                
             }
         }  
         stage('build') {
             steps {
                 script {               
-                    echo "Building the application..."
-                    sh 'npm --version'
+                    echo "Building the application..."                    
+                    
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                        sh "docker build -t ${IMAGE_NAME} ."
+                        sh "echo  $PASS | docker login -u $USER --password-stdin"                        
+                        sh "docker push ${IMAGE_NAME}"
                 }                
             }
         }        
@@ -25,12 +33,8 @@ pipeline {
         }    
         stage('deploy') {         
             steps {
-                script {
-                    def dockerCmd = 'docker run -d -p 3000:3080 raghavbuz/my-ng-app:1.0'
-                    echo "Deploying the application..."
-                    sshagent(['ec2-server-credentials']) {
-                       sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.91.67 ${dockerCmd}"
-                    }
+                script {       
+                     echo "Deploying the application..."             
                 }
             }
         }
