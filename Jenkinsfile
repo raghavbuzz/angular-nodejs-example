@@ -12,6 +12,7 @@ pipeline {
             steps {
                 script {               
                     echo "Building the application..."
+                    echo "npm --version"
                 }                
             }
         }        
