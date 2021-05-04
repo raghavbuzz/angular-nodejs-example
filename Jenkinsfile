@@ -8,7 +8,7 @@ pipeline {
             steps {
                 script {
                     echo "Initializing the application..."  
-                    sh 'npm --version'                                      
+                    // sh 'npm --version'                                      
                 }                
             }
         }  
@@ -17,11 +17,11 @@ pipeline {
                 script {               
                     echo "Building the application..."                    
                     
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        sh "docker build -t ${IMAGE_NAME} ."
-                        sh "echo  $PASS | docker login -u $USER --password-stdin"                        
-                        sh "docker push ${IMAGE_NAME}"
-                    }                
+                    // withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                    //     sh "docker build -t ${IMAGE_NAME} ."
+                    //     sh "echo  $PASS | docker login -u $USER --password-stdin"                        
+                    //     sh "docker push ${IMAGE_NAME}"
+                    // }                
                 }
             }
         }
