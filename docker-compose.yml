@@ -1,0 +1,7 @@
+version: '3'
+services:
+  ng-node-app:
+    image: raghavbuz/my-ng-app:2.0
+    container_name: my-ng-app
+    ports:
+      - 3000:3080
