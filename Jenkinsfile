@@ -37,10 +37,10 @@ pipeline {
             steps {
                 script {                                        
                     echo "Deploying the application..."
-                    def dockerCmd = "docker run -d -p 3000:3080 ${IMAGE_NAME}"                    
-                    sshagent(['ec2-server-credentials']) {
-                       // sh "ssh -o StrictHostKeyChecking=no ec2-user@13.232.70.217 ${dockerCmd}"
+                    def dockerCmd = "docker-compose -f docker-compose.yml up -d"                  
+                    sshagent(['ec2-server-credentials']) {                       
                       sh "scp docker-compose.yml ec2-user@13.232.70.217:/home/ec2-user"
+                      sh "ssh -o StrictHostKeyChecking=no ec2-user@13.232.70.217 ${dockerCmd}"
                     }
                 }
             }
