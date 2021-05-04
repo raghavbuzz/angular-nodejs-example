@@ -40,7 +40,7 @@ pipeline {
                     def dockerCmd = "docker run -d -p 3000:3080 ${IMAGE_NAME}"                    
                     sshagent(['ec2-server-credentials']) {
                        // sh "ssh -o StrictHostKeyChecking=no ec2-user@13.232.70.217 ${dockerCmd}"
-                      sh "docker --version"
+                      sh "scp docker-compose.yml ec2-user@13.232.70.217:/home/ec2-user"
                     }
                 }
             }
